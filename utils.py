@@ -60,34 +60,12 @@ def makeCircles(data):
     return circles
 
 
-def showTree(node, size=100):
-    q = [[node, 0, 0]]
-    circles, texts = [], []
-
-    while len(q):
-        [cur, x, y] = q[0]
-        del q[0]
-
-        cur.circle = Circle(x, y, s=size)
-        circles.append(cur.circle)
-        texts.append(cur.val)
-        
-        if cur.left:
-            q.append([cur.left, x-1, y-1])
-        if cur.right:
-            q.append([cur.right, x+1, y-1])
-
-    showNodes(circles, texts, mode='multi')
-
-
-
-
 def getDepth(node):
     if not node:
         return 0
     return 1+max(getDepth(node.left), getDepth(node.right))
 
-def showTreeNew(node, size=500):
+def showTree(node, size=500):
     d = getDepth(node)
 
     q = [[node, 0, 0, d-1]]
