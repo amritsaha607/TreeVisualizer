@@ -12,24 +12,23 @@ class Circle:
         self.s = s
 
 
-def showNodes(circles, texts, mode='multi', debug=True):
+def showNodes(nodes, mode='multi', debug=True):
     '''
         Shows multiple nodes
     '''
     if not mode=='multi':
-        circles = [circles]
-        texts = [texts]
+        nodes = [nodes]
     plt.scatter(
-        [circle.x for circle in circles], 
-        [circle.y for circle in circles], 
-        s=[circle.s for circle in circles], 
+        [node.circle.x for node in nodes], 
+        [node.circle.y for node in nodes], 
+        s=[node.circle.s for node in nodes], 
         alpha=1,
         zorder=2,
     )
-    for i, text in enumerate(texts):
+    for i, node in enumerate(nodes):
         plt.text(
-            circles[i].x, circles[i].y, 
-            str(text), 
+            node.circle.x, node.circle.y, 
+            str(node.val), 
             horizontalalignment='center',
             verticalalignment='center',
         )
@@ -86,15 +85,14 @@ def showTree(node, edge=True, size=500, debug=True):
     d = getDepth(node)
 
     q = [[node, 0, 0, d-1]]
-    circles, texts, edges = [], [], []
+    nodes, edges = [], []
 
     while len(q):
         [cur, x, y, level] = q[0]
         del q[0]
 
         cur.circle = Circle(x, y, s=size)
-        circles.append(cur.circle)
-        texts.append(cur.val)
+        nodes.append(cur)
         
         if cur.left:
             q.append([cur.left, x-2**level, y-1, level-1])
@@ -104,4 +102,4 @@ def showTree(node, edge=True, size=500, debug=True):
             edges.append([(x, y), (x+2**level, y-1)])
 
     showEdges(edges)
-    showNodes(circles, texts, mode='multi')
+    showNodes(nodes, mode='multi')
