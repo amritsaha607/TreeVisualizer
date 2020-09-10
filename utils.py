@@ -12,16 +12,25 @@ class Circle:
         self.s = s
 
 
-def showNodes(nodes, mode='multi', debug=True):
+def showNodes(nodes, focus=[], mode='multi', debug=True):
     '''
         Shows multiple nodes
     '''
     if not mode=='multi':
         nodes = [nodes]
+    nodes_ = list(set(nodes)-set(focus))
     plt.scatter(
-        [node.circle.x for node in nodes], 
-        [node.circle.y for node in nodes], 
-        s=[node.circle.s for node in nodes], 
+        [node.circle.x for node in nodes_], 
+        [node.circle.y for node in nodes_], 
+        s=[node.circle.s for node in nodes_], 
+        alpha=1,
+        zorder=2,
+    )
+    plt.scatter(
+        [node.circle.x for node in focus], 
+        [node.circle.y for node in focus], 
+        s=[node.circle.s for node in focus], 
+        c='r',
         alpha=1,
         zorder=2,
     )
@@ -81,7 +90,7 @@ def getDepth(node):
         return 0
     return 1+max(getDepth(node.left), getDepth(node.right))
 
-def showTree(node, edge=True, size=500, debug=True):
+def showTree(node, edge=True, focusNodes=[], size=500, debug=True):
     d = getDepth(node)
 
     q = [[node, 0, 0, d-1]]
@@ -102,4 +111,4 @@ def showTree(node, edge=True, size=500, debug=True):
             edges.append([(x, y), (x+2**level, y-1)])
 
     showEdges(edges)
-    showNodes(nodes, mode='multi')
+    showNodes(nodes, focus=focusNodes, mode='multi')
