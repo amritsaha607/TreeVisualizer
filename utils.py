@@ -12,6 +12,13 @@ class Circle:
         self.s = s
 
 
+
+def getDepth(node):
+    if not node:
+        return 0
+    return 1+max(getDepth(node.left), getDepth(node.right))
+
+
 def showNodes(nodes, focus=[], mode='multi', debug=True):
     '''
         Shows multiple nodes
@@ -84,11 +91,6 @@ def makeCircles(data):
         circles.append(Circle(x, y, s))
     return circles
 
-
-def getDepth(node):
-    if not node:
-        return 0
-    return 1+max(getDepth(node.left), getDepth(node.right))
 
 def showTree(node, edge=True, focusNodes=[], size=500, debug=True):
     d = getDepth(node)
